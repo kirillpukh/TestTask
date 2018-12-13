@@ -1,6 +1,7 @@
 package com.example.TestTask;
 
 import com.example.Entity.Message;
+import com.example.Utils.MessagesGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,8 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.IOException;
-import java.util.Random;
-import java.util.UUID;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
@@ -33,29 +33,23 @@ public class ObserverMain implements CommandLineRunner {
     @Override
     public void run(String[] args) {
 
-        ObservableTest observable = new ObservableTest();
-        ObserverExample observer = new ObserverExample("first observer");
-        ObserverExample observerExampleAdditional = new ObserverExample("second observer");
+        ObservableEntity observable = new ObservableEntity();
+        ObserverEntity observer = new ObserverEntity("first observer");
+        ObserverEntity observerEntityAdditional = new ObserverEntity("second observer");
+        MessagesGenerator messagesGenerator = new MessagesGenerator();
+        ArrayList<Message> messages = new ArrayList<Message>();
 
         observable.addObserver(observer);
-        observable.addObserver(observerExampleAdditional);
+        observable.addObserver(observerEntityAdditional);
 
         try {
             while (System.in.available() == 0) {
                 TimeUnit.SECONDS.sleep(PACKAGE_DELAY_SECONDS);
 
-                for (int i = 0; i < MESSAGE_PACKAGE; i++) {
-                    Message message = new Message();
-                    message.setUuid(UUID.randomUUID());
+                messages = (ArrayList) messagesGenerator.generate(MESSAGE_PACKAGE);
 
-                    Random generator = new Random();
-                    int randomPriorityValue = generator.nextInt(3);
+                observable.setMessages(messages);
 
-                    message.setPriority(randomPriorityValue);
-                    observable.setMessage(message);
-                }
-
-                observable.showMessages();
             }
         } catch (IOException ioe) {
             System.out.println(ioe.getMessage());

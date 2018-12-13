@@ -3,29 +3,26 @@ package com.example.TestTask;
 import com.example.Entity.Message;
 import com.example.Utils.MessageComparator;
 
-import java.util.Observable;
-import java.util.PriorityQueue;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.*;
 
-public class ObservableTest extends Observable {
-    private PriorityQueue<Message> messages;
+public class ObservableEntity extends Observable {
     private HashMap<Message, ArrayList<String>> observableController;
-    private Message message;
+    private PriorityQueue<Message> messages;
+    //private Message message;
 
-    public ObservableTest() {
+    public ObservableEntity() {
         Comparator<Message> messageComparator = new MessageComparator();
         this.messages = new PriorityQueue<Message>(10, messageComparator);
         this.observableController = new HashMap<Message, ArrayList<String>>();
     }
 
-    public void getMessage(String observerName) {
+    public  List getMessages(String observerName) {
         if (this.messages.size() == 0)
-            return;
+            return Collections.EMPTY_LIST;
 
-        Iterator<Message> messageIterator = messages.iterator();
+        //LinkedList<Message> messagesList = new LinkedList<Message>().addAll();
+
+        /*Iterator<Message> messageIterator = messages.iterator();
 
         while (messageIterator.hasNext()) {
             message = messageIterator.next();
@@ -33,10 +30,12 @@ public class ObservableTest extends Observable {
             if (!observableController.containsKey(message)) {
                 observableController.put(message, new ArrayList<String>());
                 observableController.get(message).add(observerName);
+                messages.add(message);
                 System.out.println("> " + observerName + " ::: " + message);
             }
             else if (observableController.containsKey(message) && !observableController.get(message).contains(observerName)) {
                 observableController.get(message).add(observerName);
+                messages.add(message);
                 System.out.println("> " + observerName + " ::: " + message);
             } else if (observableController.containsKey(message) && observableController.get(message).contains(observerName)) {
                 if (observableController.get(message).size() == this.countObservers()) {
@@ -44,18 +43,18 @@ public class ObservableTest extends Observable {
                     observableController.remove(message);
                 }
             }
-        }
+        }*/
+
+        return new LinkedList<Message>(messages);
 
     }
 
-    public void setMessage(Message message) {
-        if (message == null)
+    public void setMessages(ArrayList msgs) {
+        if (msgs.isEmpty() || msgs == null)
             return;
 
-        this.messages.add(message);
-    }
+        this.messages.addAll(msgs);
 
-    public void showMessages() {
         setChanged();
         notifyObservers();
     }
