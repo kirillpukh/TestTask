@@ -28,6 +28,8 @@ public class MessagesGenerator {
             messages.add(message);
         }
 
+        System.out.println("!!! " + messages.toString());
+
         return messages;
     }
 }

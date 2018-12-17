@@ -20,14 +20,16 @@ public class ObserverEntity implements Observer {
 
     @Override
     public void update(Observable observable, Object arg) {
+        System.out.println("observer update");
         //if (arg) {
         observableEntity = (ObservableEntity) observable;
         message = observableEntity.getMessage(this.observerName);
         showMessage();
     }
 
-    @Scheduled(fixedDelayString = "1")
+    @Scheduled(fixedRateString = "1")
     public void showMessage() {
+        System.out.println("observer show message");
         if (message != null)
             System.out.println(this.observerName + " ::: " + this.message);
 

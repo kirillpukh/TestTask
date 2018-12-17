@@ -26,6 +26,14 @@ public class ObserverMain implements CommandLineRunner {
     @Value("${package_delay_seconds}")
     private int PACKAGE_DELAY_SECONDS;
 
+    private MessagesGenerator messagesGenerator;
+    private ArrayList<Message> messages;
+
+    public ObserverMain() {
+        this.messagesGenerator = new MessagesGenerator();
+        this.messages = new ArrayList<Message>();
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(ObserverMain.class, args);
     }
@@ -35,7 +43,7 @@ public class ObserverMain implements CommandLineRunner {
 
         ObservableEntity observable = new ObservableEntity();
         ObserverEntity observer = new ObserverEntity("first observer");
-        ObserverEntity observerEntityAdditional = new ObserverEntity("second observer");
+        //ObserverEntity observerEntityAdditional = new ObserverEntity("second observer");
 
         //MessagesGenerator messagesGenerator = new MessagesGenerator();
         //ArrayList<Message> messages = new ArrayList<Message>();
@@ -43,7 +51,7 @@ public class ObserverMain implements CommandLineRunner {
         observable.addObserver(observer);
         //observable.addObserver(observerEntityAdditional);
 
-        /*try {
+        try {
             while (System.in.available() == 0) {
                 TimeUnit.SECONDS.sleep(PACKAGE_DELAY_SECONDS);
 
@@ -56,7 +64,7 @@ public class ObserverMain implements CommandLineRunner {
             System.out.println(ioe.getMessage());
         } catch (InterruptedException ie) {
             System.out.println(ie.getMessage());
-        }*/
+        }
     }
 }
 

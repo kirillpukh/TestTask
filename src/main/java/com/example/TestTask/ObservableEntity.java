@@ -56,7 +56,7 @@ public class ObservableEntity extends Observable {
 
     }
 
-    /*public void setMessages(ArrayList msgs) {
+    public void setMessages(ArrayList msgs) {
         if (msgs.isEmpty() || msgs == null)
             return;
 
@@ -64,14 +64,15 @@ public class ObservableEntity extends Observable {
 
         setChanged();
         notifyObservers();
-    }*/
+    }
 
-    @Scheduled(fixedDelayString = "10")
+    /*@Scheduled(fixedRateString = "10")
     private void createMessages() {
+        System.out.println("create message");
         this.messages.addAll(messagesGenerator.generate(3));
         setChanged();
         notifyObservers(true);
-    }
+    }*/
 
     private void checkQueueSize() {
         if (messages.isEmpty()) {
