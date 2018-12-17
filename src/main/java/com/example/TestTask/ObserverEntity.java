@@ -1,35 +1,37 @@
 package com.example.TestTask;
 
 import com.example.Entity.Message;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
-import java.util.LinkedList;
 import java.util.Observable;
 import java.util.Observer;
 
+@EnableScheduling
 public class ObserverEntity implements Observer {
 
     private ObservableEntity observableEntity;
     private String observerName;
-    private LinkedList<Message> messages;
+    private Message message;
 
     public ObserverEntity(String observerName) {
-
         this.observerName = observerName;
-        messages = new LinkedList<Message>();
     }
 
     @Override
     public void update(Observable observable, Object arg) {
+        //if (arg) {
         observableEntity = (ObservableEntity) observable;
-        messages = (LinkedList<Message>) observableEntity.getMessages(this.observerName);
-        showMessages();
+        message = observableEntity.getMessage(this.observerName);
+        showMessage();
     }
 
-    public void showMessages() {
-        for(Message m : messages)
-            System.out.println(this.observerName + " ::: " + m);
+    @Scheduled(fixedDelayString = "1")
+    public void showMessage() {
+        if (message != null)
+            System.out.println(this.observerName + " ::: " + this.message);
 
-        System.out.println("--- \n");
+        message = null;
     }
 
 }

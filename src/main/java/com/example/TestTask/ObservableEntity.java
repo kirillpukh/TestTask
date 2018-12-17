@@ -2,13 +2,18 @@ package com.example.TestTask;
 
 import com.example.Entity.Message;
 import com.example.Utils.MessageComparator;
+import com.example.Utils.MessagesGenerator;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.*;
 
+@EnableScheduling
 public class ObservableEntity extends Observable {
     private HashMap<Message, ArrayList<String>> observableController;
     private PriorityQueue<Message> messages;
-    //private Message message;
+    private MessagesGenerator messagesGenerator;
+    private Message message;
 
     public ObservableEntity() {
         Comparator<Message> messageComparator = new MessageComparator();
@@ -16,13 +21,13 @@ public class ObservableEntity extends Observable {
         this.observableController = new HashMap<Message, ArrayList<String>>();
     }
 
-    public  List getMessages(String observerName) {
+    public  Message getMessage(String observerName) {
         if (this.messages.size() == 0)
-            return Collections.EMPTY_LIST;
+            return null; //Collections.EMPTY_LIST;
 
         //LinkedList<Message> messagesList = new LinkedList<Message>().addAll();
 
-        /*Iterator<Message> messageIterator = messages.iterator();
+        Iterator<Message> messageIterator = messages.iterator();
 
         while (messageIterator.hasNext()) {
             message = messageIterator.next();
@@ -30,26 +35,28 @@ public class ObservableEntity extends Observable {
             if (!observableController.containsKey(message)) {
                 observableController.put(message, new ArrayList<String>());
                 observableController.get(message).add(observerName);
-                messages.add(message);
-                System.out.println("> " + observerName + " ::: " + message);
+                return message;
+                //messages.add(message);
+                //System.out.println("> " + observerName + " ::: " + message);
             }
             else if (observableController.containsKey(message) && !observableController.get(message).contains(observerName)) {
                 observableController.get(message).add(observerName);
-                messages.add(message);
-                System.out.println("> " + observerName + " ::: " + message);
+                return message;
+                //messages.add(message);
+                //System.out.println("> " + observerName + " ::: " + message);
             } else if (observableController.containsKey(message) && observableController.get(message).contains(observerName)) {
                 if (observableController.get(message).size() == this.countObservers()) {
                     messageIterator.remove();
                     observableController.remove(message);
                 }
             }
-        }*/
+        }
 
-        return new LinkedList<Message>(messages);
+        return null;
 
     }
 
-    public void setMessages(ArrayList msgs) {
+    /*public void setMessages(ArrayList msgs) {
         if (msgs.isEmpty() || msgs == null)
             return;
 
@@ -57,6 +64,20 @@ public class ObservableEntity extends Observable {
 
         setChanged();
         notifyObservers();
+    }*/
+
+    @Scheduled(fixedDelayString = "10")
+    private void createMessages() {
+        this.messages.addAll(messagesGenerator.generate(3));
+        setChanged();
+        notifyObservers(true);
+    }
+
+    private void checkQueueSize() {
+        if (messages.isEmpty()) {
+            setChanged();
+            notifyObservers(false);
+        }
     }
 
 }

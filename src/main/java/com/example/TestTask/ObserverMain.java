@@ -36,13 +36,14 @@ public class ObserverMain implements CommandLineRunner {
         ObservableEntity observable = new ObservableEntity();
         ObserverEntity observer = new ObserverEntity("first observer");
         ObserverEntity observerEntityAdditional = new ObserverEntity("second observer");
-        MessagesGenerator messagesGenerator = new MessagesGenerator();
-        ArrayList<Message> messages = new ArrayList<Message>();
+
+        //MessagesGenerator messagesGenerator = new MessagesGenerator();
+        //ArrayList<Message> messages = new ArrayList<Message>();
 
         observable.addObserver(observer);
-        observable.addObserver(observerEntityAdditional);
+        //observable.addObserver(observerEntityAdditional);
 
-        try {
+        /*try {
             while (System.in.available() == 0) {
                 TimeUnit.SECONDS.sleep(PACKAGE_DELAY_SECONDS);
 
@@ -55,7 +56,7 @@ public class ObserverMain implements CommandLineRunner {
             System.out.println(ioe.getMessage());
         } catch (InterruptedException ie) {
             System.out.println(ie.getMessage());
-        }
+        }*/
     }
 }
 
