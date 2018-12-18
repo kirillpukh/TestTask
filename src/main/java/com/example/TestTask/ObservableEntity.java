@@ -23,9 +23,7 @@ public class ObservableEntity extends Observable {
 
     public  Message getMessage(String observerName) {
         if (this.messages.size() == 0)
-            return null; //Collections.EMPTY_LIST;
-
-        //LinkedList<Message> messagesList = new LinkedList<Message>().addAll();
+            return null;
 
         Iterator<Message> messageIterator = messages.iterator();
 
@@ -36,14 +34,10 @@ public class ObservableEntity extends Observable {
                 observableController.put(message, new ArrayList<String>());
                 observableController.get(message).add(observerName);
                 return message;
-                //messages.add(message);
-                //System.out.println("> " + observerName + " ::: " + message);
             }
             else if (observableController.containsKey(message) && !observableController.get(message).contains(observerName)) {
                 observableController.get(message).add(observerName);
                 return message;
-                //messages.add(message);
-                //System.out.println("> " + observerName + " ::: " + message);
             } else if (observableController.containsKey(message) && observableController.get(message).contains(observerName)) {
                 if (observableController.get(message).size() == this.countObservers()) {
                     messageIterator.remove();
@@ -65,14 +59,6 @@ public class ObservableEntity extends Observable {
         setChanged();
         notifyObservers();
     }
-
-    /*@Scheduled(fixedRateString = "10")
-    private void createMessages() {
-        System.out.println("create message");
-        this.messages.addAll(messagesGenerator.generate(3));
-        setChanged();
-        notifyObservers(true);
-    }*/
 
     private void checkQueueSize() {
         if (messages.isEmpty()) {

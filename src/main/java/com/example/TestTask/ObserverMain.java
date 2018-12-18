@@ -1,6 +1,7 @@
 package com.example.TestTask;
 
 import com.example.Entity.Message;
+import com.example.Utils.LoggerConstants;
 import com.example.Utils.MessagesGenerator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -42,14 +43,12 @@ public class ObserverMain implements CommandLineRunner {
     public void run(String[] args) {
 
         ObservableEntity observable = new ObservableEntity();
-        ObserverEntity observer = new ObserverEntity("first observer");
-        //ObserverEntity observerEntityAdditional = new ObserverEntity("second observer");
 
-        //MessagesGenerator messagesGenerator = new MessagesGenerator();
-        //ArrayList<Message> messages = new ArrayList<Message>();
+        ObserverEntity observer = new ObserverEntity("first observer");
+        ObserverEntity observerEntityAdditional = new ObserverEntity("second observer");
 
         observable.addObserver(observer);
-        //observable.addObserver(observerEntityAdditional);
+        observable.addObserver(observerEntityAdditional);
 
         try {
             while (System.in.available() == 0) {

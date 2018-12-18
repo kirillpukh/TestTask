@@ -1,6 +1,7 @@
 package com.example.TestTask;
 
 import com.example.Entity.Message;
+import com.example.Utils.LoggerConstants;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
@@ -20,8 +21,6 @@ public class ObserverEntity implements Observer {
 
     @Override
     public void update(Observable observable, Object arg) {
-        System.out.println("observer update");
-        //if (arg) {
         observableEntity = (ObservableEntity) observable;
         message = observableEntity.getMessage(this.observerName);
         showMessage();
@@ -29,9 +28,8 @@ public class ObserverEntity implements Observer {
 
     @Scheduled(fixedRateString = "1")
     public void showMessage() {
-        System.out.println("observer show message");
         if (message != null)
-            System.out.println(this.observerName + " ::: " + this.message);
+            LoggerConstants.LOGGER_TEST.info(this.observerName + " ::: " + this.message);
 
         message = null;
     }
